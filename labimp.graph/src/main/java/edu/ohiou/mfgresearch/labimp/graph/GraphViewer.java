@@ -167,8 +167,7 @@ public class GraphViewer extends JFrame implements GraphListener
 				
 				
 				public void actionPerformed(ActionEvent e) {
-					addDirectedArc();
-					
+					addDirectedArc();				
 				}
 			});
 			JButton addUndirArcButton = new JButton("<==>");
@@ -178,7 +177,6 @@ public class GraphViewer extends JFrame implements GraphListener
 				
 				public void actionPerformed(ActionEvent e) {
 					addUndirectedArc();
-					
 				}
 			});
 			
@@ -405,6 +403,7 @@ public class GraphViewer extends JFrame implements GraphListener
 			if (!fromNode.isChild(toNode)) {
 			DirectedArc dArc = new DirectedArc(fromNode, toNode);
 			arcListModel.addElement(dArc);
+			layouter.arcAdded(dArc);
 			}
 			else {
 				JOptionPane.showMessageDialog(null,
@@ -420,6 +419,7 @@ public class GraphViewer extends JFrame implements GraphListener
 			if (!firstNode.isConnected(secNode)) {
 			UndirectedArc udArc = new UndirectedArc(firstNode, secNode);
 			arcListModel.addElement(udArc);
+			layouter.arcAdded(udArc);
 			}
 			else {
 				JOptionPane.showMessageDialog(null,
