@@ -32,8 +32,8 @@ public class GraphViewer extends JFrame implements GraphListener
 	// dns comment
 	 Graph graph;
 	 JPanel panel;
-	 DefaultListModel nodeListModel;
-	 DefaultListModel arcListModel = new DefaultListModel();
+	 DefaultListModel<Node> nodeListModel;
+	 DefaultListModel<Arc> arcListModel = new DefaultListModel<Arc>();
 	 GraphLayouter layouter; 
 	 GraphLayouter3D layouterWF3D;
 	boolean showBorders= false;
@@ -42,7 +42,7 @@ public class GraphViewer extends JFrame implements GraphListener
 	{
 		graph = g;	
 		graph.addListener(this);
-		nodeListModel = new DefaultListModel();
+		nodeListModel = new DefaultListModel<Node>();
 		setViewOptions(options);
 		layouter = new GraphLayouter(graph, new Point2D.Double());
 		layouter.makeLayout();
@@ -130,8 +130,8 @@ public class GraphViewer extends JFrame implements GraphListener
 		AnimPanel canvasAnim;
 		JList arcList;
 		
-		JList fromList = new JList(nodeListModel);
-		JList toList = new JList(nodeListModel);
+		JList<Node> fromList = new JList<Node>(nodeListModel);
+		JList<Node> toList = new JList<Node>(nodeListModel);
 		
 		public DrawViewPanel () {
 			
@@ -197,7 +197,7 @@ public class GraphViewer extends JFrame implements GraphListener
 
 				private void runDijkstra() throws NotMemberException {
 
-					graph.dijkstra(graph.findNode("a1"));
+					graph.dijkstra(fromList.getSelectedValue(), toList.getSelectedValue(), Graph.DIRECT);
 					graph.printoutShortestPath();
 					
 				}
@@ -244,7 +244,7 @@ public class GraphViewer extends JFrame implements GraphListener
 				private void runBiDijkstra() throws NotMemberException {
 					Node firstNode = null;
 					Node lastNode = null;
-					graph.biDijkstra(graph.findNode("1a"), graph.findNode("12a"));
+					graph.biDijkstra(fromList.getSelectedValue(), toList.getSelectedValue());
 					graph.printoutShortestPath();
 					
 				}
