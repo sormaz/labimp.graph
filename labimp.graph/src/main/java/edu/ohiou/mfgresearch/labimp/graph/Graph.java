@@ -31,6 +31,11 @@ public class Graph {
 	static final int ARCS = 8;
 	static final int EXIT = 9;
 	static final int QUIT = 10;
+	
+	static final int DIRECT = 1;
+	static final int REVERSE = 2;
+	static final int BIDIRECT = 3;
+	
 
 
 	static final int OK = 0;
@@ -396,8 +401,17 @@ public class Graph {
 	};
 	
 	public void dijkstra (Node source, Node sink, int direction) {
-		if(direction ==0){
-			
+		switch (direction) {
+		case DIRECT:
+
+			dijkstra (source);
+			break;
+		case REVERSE: 
+			dijkstraReverse(sink);
+			break;
+		case BIDIRECT:
+			biDijkstra(source, sink);
+			break;
 		}
 	}
 	
