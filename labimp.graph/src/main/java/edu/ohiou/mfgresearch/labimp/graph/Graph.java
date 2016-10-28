@@ -111,13 +111,24 @@ public class Graph {
 		return nodes().iterator();
 	}
 	
-	public Node findNode (Object user) throws NotMemberException {
+	public Node findNode (Object user, boolean makeNode) throws NotMemberException {
 		if (nodeMap.containsKey(user)) {
 			return nodeMap.get(user);
 		}
 		else {
-			throw new NotMemberException ("Node for " + user + " does not exist in the graph");
+			if (makeNode) {
+				Node n = new Node(user);
+				addNode(n);
+				return n;
+			}
+			else {
+				throw new NotMemberException ("Node for " + user + " does not exist in the graph");
+			}
 		}
+	}
+	
+	public Node findNode (Object user) throws NotMemberException {
+		return findNode(user, false);
 	}
 	
 	public void printNodes () {
@@ -216,11 +227,11 @@ public class Graph {
 		}		
 	}
 	
-	public void read (String file) throws FileNotFoundException {
-		read (new FileInputStream(file));
+	public void rread (String file) throws FileNotFoundException {
+		rread (new FileInputStream(file));
 	}
 
-	public void read (InputStream stream) {
+	public void rread (InputStream stream) {
 		Scanner sc = new Scanner (stream);
 		StringTokenizer tokenizer; 
 //		String input;
