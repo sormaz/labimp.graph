@@ -46,7 +46,9 @@ public class GraphApplication {
 		}
 		read(input);
 		Graph graph = new Graph();
-		graph.read(input);
+ 	   GraphReader r = new InteractiveGraphReader  (input);
+		r.read(graph);
+
 	}
 
 }
