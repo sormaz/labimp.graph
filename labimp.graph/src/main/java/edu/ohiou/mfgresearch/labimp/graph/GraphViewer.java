@@ -370,7 +370,8 @@ public class GraphViewer extends JFrame implements GraphListener
 			            File file = fc.getSelectedFile();
 			           try {
 //			        	   graph.clear();
-						graph.read(new FileInputStream(file));
+			        	   GraphReader r = new InteractiveGraphReader  (new FileInputStream(file));
+						r.read(graph);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
