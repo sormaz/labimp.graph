@@ -118,7 +118,7 @@ public class GraphViewer extends JFrame implements GraphListener
 //	//	\engineering.ENT-292-CART
 //		System.out.println(System.getProperty("user.dir")); // C:
 //	//	\ISE589_EclipseWorkspace\graph-project
-		GraphViewer v = new GraphViewer(new Graph(), VIEW_2D);
+		GraphViewer v = new GraphViewer(new Graph(), VIEW_2D | VIEW_WF);
 		v.display();
 	}
 	
