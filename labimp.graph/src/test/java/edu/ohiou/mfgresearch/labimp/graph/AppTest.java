@@ -1,8 +1,8 @@
 package edu.ohiou.mfgresearch.labimp.graph;
 
-import junit.framework.Test;
+import org.jgrapht.util.FibonacciHeap;
+
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Unit test for simple App.
@@ -10,29 +10,22 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+    
+	/**
+	 * Dijkstra's algorithm using Fibonacci heap.
+	 * The implementation of Nathan Fiedler is used from JGraphT project
+	 * mplementing Dijkstra with Fibonacci heap gives best performance so far. -Ahuja
+	 */
+	@org.junit.Test
+	public void DijkstraFiboHeap(){
+		
+		FibonacciHeap<Double> heap = new FibonacciHeap<Double>();
+		
+//		heap.insert(node, key);
+		
+	}
+	
+	
+	
+	
 }

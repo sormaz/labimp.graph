@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Stream;
 
 import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
 
@@ -104,6 +105,10 @@ public class Graph {
 	
 	public Iterator<Node> getNodes () {
 		return nodes().iterator();
+	}
+		
+	public Stream<Node> getNodeStream(){
+		return nodes().stream();
 	}
 	
 	public Node findNode (Object user) throws NotMemberException {
