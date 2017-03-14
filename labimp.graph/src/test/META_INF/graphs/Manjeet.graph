@@ -1,0 +1,15 @@
+node a
+node b
+node c
+node d
+node e
+node f
+dir-arc a b 6
+dir-arc a c 4
+dir-arc b c 2
+dir-arc b d 2
+dir-arc c d 1
+dir-arc c e 2
+dir-arc d f 7
+dir-arc e d 1
+dir-arc e f 3

@@ -158,12 +158,6 @@ public class Graph {
 	
 		return true;
 	}
-			
-		
-	
-//	public void addArc (Arc a) {
-//		
-//	}
 	
 	class NodeCounter {
 		public int countNodes () {

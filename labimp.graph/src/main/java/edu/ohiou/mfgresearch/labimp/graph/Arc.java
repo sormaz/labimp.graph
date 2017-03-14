@@ -20,4 +20,6 @@ public abstract class Arc implements Drawable {
 	abstract public Node [] getNodes();
 	abstract public Node getParentNode();
 	abstract public Node getChildNode();
+
+	abstract public double getValue();
 }

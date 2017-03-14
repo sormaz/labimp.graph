@@ -62,4 +62,10 @@ public class UndirectedArc extends Arc{
 		throw new UnsupportedOperationException("UnirectedArc class does not implement getChildNode() method.");
 	}
 
+	@Override
+	public double getValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

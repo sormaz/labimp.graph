@@ -1,0 +1,44 @@
+explain								# report unrecognized command
+node								
+node athens							# accept
+node athens							# report node exists
+node columbus						# accept
+node toledo							# accept
+dir-arc athens columbus 75			# accept
+dir-arc athens cincinnati 150		# report node does not exist
+dir-arc cleveland columbus 150		# report node does not exist
+dir-arc athens columbus 75			# report arc is duplicate
+dir-arc toledo columbus 130			# accept
+dir-arc athens						
+nodes								# printout all nodes - 3 nodes now
+arcs								# printout all arcs - only one now
+node cincinnati						# accept
+node cleveland						# accept
+dir-arc athens cincinnati 150		# accept
+dir-arc cleveland columbus 150		# accept
+nodes 								# printout all nodes - 5 nodes now
+arcs								# printout all arcs - 4 arcs now
+undir-arc athens columbus 75		# accept
+undir-arc athens cincinnati 150		# accept
+undir-arc cleveland columbus 150	# accept
+undir-arc athens columbus 75		# report arc is duplicate
+undir-arc columbus athens 75		# report arc is duplicate
+undir-arc athens
+arcs								# printout all arcs - six now
+undir-arc athens marietta 45		# report node does not exist
+undir-arc marietta athens 45		# report node does not exist
+node marietta 						# accept
+undir-arc athens marietta 45		# accept
+
+nodes  								# printout all nodes - 6 nodes now
+arcs								# printout all arcs - 8 arcs now
+delete athens marietta				# accept
+delete toledo cleveland 			# report that arc does not exist between them   
+delete toledo belgrade				# report that node belgrade does not exist
+delete detroit athens				# report that detroit does not exist
+nodes  								# printout all nodes - 6 nodes now
+arcs								# printout all arcs - 7 arcs now
+delete athens
+delete belgrade
+nodes  								# printout all nodes - 5 nodes now
+arcs								# printout all arcs - 2 arcs now

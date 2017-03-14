@@ -1,0 +1,28 @@
+node athens
+node columbus
+node logan
+undir-arc athens columbus 75
+undir-arc columbus athens 75
+node cincinnati 
+node athens
+node toleda
+node new-york
+node pittsburgh
+node miami
+arcs
+nodes
+undir-arc cincinnati toledo 250
+undir-arc athens cincinnati 135
+printout athens
+printout new-orleans
+printout lexington
+node lexington
+arcs
+undir-arc cincinnati lexington 80
+undir-arc lexington cincinnati 80
+delete parkersburg
+delete athens
+printout cincinnati toledo
+delete cincinnati toledo
+nodes
+arcs

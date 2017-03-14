@@ -1,0 +1,29 @@
+node 1a
+node 2a
+node 3a
+node 4a
+node 5a
+node 6a
+node 7a
+node 8a
+node 9a
+node 10a
+node 11a
+node 12a
+dir-arc 1a 2a 5
+dir-arc 1a 4a 10
+dir-arc 2a 3a 7
+dir-arc 2a 5a 1
+dir-arc 3a 6a 4
+dir-arc 4a 5a 3
+dir-arc 4a 7a 11
+dir-arc 5a 6a 3
+dir-arc 5a 8a 7
+dir-arc 6a 9a 5
+dir-arc 7a 8a 2
+dir-arc 7a 10a 9
+dir-arc 8a 9a 0
+dir-arc 8a 11a 1
+dir-arc 9a 12a 5
+dir-arc 10a 11a 2
+dir-arc 11a 12a 4

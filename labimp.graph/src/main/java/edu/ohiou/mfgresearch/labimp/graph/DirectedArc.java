@@ -50,6 +50,11 @@ public class DirectedArc extends Arc {
 	public Node getOtherNode (Node n) {
 		return n == parent ? child : parent;
 	}
+	
+	@Override
+	public double getValue(){
+		return value;
+	}
 
 	@Override
 	public Node[] getNodes() {

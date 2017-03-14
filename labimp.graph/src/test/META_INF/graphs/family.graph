@@ -1,0 +1,21 @@
+node dns
+node bds
+node os
+dir-arc dns bds
+dir-arc dns ods
+node ns
+nodes
+arcs
+dir-arc ns dns
+nodes
+arcs
+printout dns
+delete ns
+printout ns
+printout sms
+node sms 
+node ms
+node ms sms
+node ojs
+dir-arc ojs dns
+printout os
