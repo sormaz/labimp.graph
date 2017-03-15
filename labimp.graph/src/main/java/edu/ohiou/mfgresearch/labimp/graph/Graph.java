@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Stream;
 
 import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
 
@@ -122,9 +123,17 @@ public class Graph {
 	}
 	
 	public void printout () {
-		System.out.println("Graph has " + nodes().size() + " nodes and " + arcs.size() + " arcs.");
+		System.out.println("Graph has " + nodes().size() + " nodes and " + findArcs().size() + " arcs.");
 		for (Node n : nodes()) {
-			System.out.println(n);
+			System.out.print(n);
+			System.out.print("\t");
+			for(Arc a:n.getArcs()){
+				if (a instanceof DirectedArc){
+					if (a.getChildNode()==n) continue;
+				}
+				System.out.print(a.getChildNode()+"\t");
+			}
+			System.out.print("\n");
 		}
 	}
 	
@@ -573,6 +582,11 @@ public class Graph {
 				return false;
 				
 			}
+		}
+
+		public Stream<Node> getNodeStream() {
+			// TODO Auto-generated method stub
+			return nodeMap.values().stream();
 		}
 }
 			

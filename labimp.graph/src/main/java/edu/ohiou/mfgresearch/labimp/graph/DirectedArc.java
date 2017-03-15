@@ -29,7 +29,6 @@ public class DirectedArc extends Arc {
 	}
 	
 	public String toString () {
-
 		return "DArc[" + parent.getUserObject() + "=>" + child.getUserObject() + "]"+ value ;
 	}
 	
@@ -56,5 +55,17 @@ public class DirectedArc extends Arc {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("DirectedArc class does not implement getNodes() method");
 	}
+
+
+	public double getValue() {
+		return value;
+	}
+
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+	
+	
 
 }
