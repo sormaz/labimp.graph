@@ -8,7 +8,7 @@ import edu.ohiou.mfgresearch.labimp.basis.DrawString;
 
 public class Vertex extends DrawObject {
 	
-	public static final double RADIUS = 3.0;
+	public static final double RADIUS = 0.1;
 	Node node;
 	
 	public Vertex (Node n, Point2D.Double p) {
