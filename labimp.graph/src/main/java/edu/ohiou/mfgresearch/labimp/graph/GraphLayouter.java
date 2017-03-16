@@ -16,19 +16,19 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 	public GraphLayouter (Graph graph, Point2D.Double point) {
 		super (point);
 		graph.addListener(this);
-//		for (Iterator<Node> itr = graph.getNodes(); itr.hasNext();) {
-//			Node n = itr.next();
-//			vertices.put(n, new Vertex(n));
-//		}
-//	makeLayout();
-//		for (Arc a : graph.findArcs()) {
-//			edges.add(Edge.newEdge(a, this));
-//		}
+		for (Iterator<Node> itr = graph.getNodes(); itr.hasNext();) {
+			Node n = itr.next();
+			vertices.put(n, new Vertex(n));
+		}
+	makeLayout();
+		for (Arc a : graph.findArcs()) {
+			edgeMap.put(a,new DirectedEdge((DirectedArc) a, this));
+		}
 
 //		for (Arc a : graph.findArcs()) {
 //			edges.add(new Edge (a));
 //		}
-		
+//		
 	}
 	
 	public void makeLayout() {
