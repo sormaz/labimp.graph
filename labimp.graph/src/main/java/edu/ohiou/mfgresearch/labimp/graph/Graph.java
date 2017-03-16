@@ -9,6 +9,8 @@ import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -236,6 +238,15 @@ public class Graph {
 		}		
 	}
 	
+	public void write (PrintStream out) {
+		for (Node n : nodeMap.values()) {
+			out.println("node " + n);
+		}
+		for (Arc a : findArcs()) {
+			out.println("dir-arc " + a.getParentNode() + " " + a.getChildNode() + " 10");		
+		}
+	}
+	
 	public void rread (String file) throws FileNotFoundException {
 		rread (new FileInputStream(file));
 	}
@@ -407,6 +418,12 @@ public class Graph {
 	public void display()
 	{
 		GraphViewer v = new GraphViewer(this);
+		v.display();
+	}
+	
+	public void display(int panelSet)
+	{
+		GraphViewer v = new GraphViewer(this, panelSet);
 		v.display();
 	}
 	
