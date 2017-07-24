@@ -18,7 +18,10 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 		graph.addListener(this);
 		for (Iterator<Node> itr = graph.getNodes(); itr.hasNext();) {
 			Node n = itr.next();
-			vertices.put(n, new Vertex(n));
+			Vertex v = new Vertex(n);
+			vertices.put(n, v);
+			System.out.println("Vertex Node = "+v.node.toString());
+			
 		}
 	makeLayout();
 		for (Arc a : graph.findArcs()) {
