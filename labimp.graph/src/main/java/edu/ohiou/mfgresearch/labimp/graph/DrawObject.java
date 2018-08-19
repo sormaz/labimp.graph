@@ -29,17 +29,10 @@ public abstract class DrawObject implements Drawable2D {
 		// TODO Auto-generated method stub
 
 	}
-
-
-
 	
 	public JPanel geettCanvas() {
 		return canvas;
 	}
-
-
-
-
 
 	public GraphicsConfiguration geetGraphicsConfig() {
 		// TODO Auto-generated method stub
@@ -51,9 +44,6 @@ public abstract class DrawObject implements Drawable2D {
 		// TODO Auto-generated method stub
 		return position;
 	}
-
-
-
 	
 	public Collection giveSelectables() {
 		

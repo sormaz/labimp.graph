@@ -9,17 +9,20 @@ import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
+import java.util.stream.Stream;
 
 import com.sun.org.apache.xml.internal.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
 
 public class Graph {
-	
-//	private ArrayList<Node> nodes = new ArrayList<Node>();
-	private ArrayList<Arc> arcs =new ArrayList<Arc>();
-	private HashMap<Object, Node> nodeMap = new HashMap <Object, Node>();
+
+	// private ArrayList<Node> nodes = new ArrayList<Node>();
+	private ArrayList<Arc> arcs = new ArrayList<Arc>();
+	private HashMap<Object, Node> nodeMap = new HashMap<Object, Node>();
 	private ArrayList<GraphListener> listeners = new ArrayList<GraphListener>();
-	
+
 	static HashMap<String, Integer> commands;
 	static final int NODE = 1;
 	static final int DIR_ARC = 2;
@@ -31,22 +34,22 @@ public class Graph {
 	static final int ARCS = 8;
 	static final int EXIT = 9;
 	static final int QUIT = 10;
-	
+
 	static final int DIRECT = 1;
 	static final int REVERSE = 2;
 	static final int BIDIRECT = 3;
+
 	
-
-
+	
 	static final int OK = 0;
-	static String menu = new String ("Enter one of the following commands:" 
-			+ "\n\tnode dir-arc undir-arc delete printout graph nodes arcs exit quit" +
-"\nEnter your command with all needed parameters ->");
+	static String menu = new String("Enter one of the following commands:"
+			+ "\n\tnode dir-arc undir-arc delete printout graph nodes arcs exit quit"
+			+ "\nEnter your command with all needed parameters ->");
 
 	
 	
 	static {
-		commands = new HashMap<String, Integer>(); 
+		commands = new HashMap<String, Integer>();
 		commands.put("node", NODE);
 		commands.put("dir-arc", DIR_ARC);
 		commands.put("undir-arc", UNDIR_ARC);
@@ -58,93 +61,96 @@ public class Graph {
 		commands.put("exit", EXIT);
 		commands.put("quit", QUIT);
 	}
-	
-	public Graph () {
-		
+
+	public Graph() {
+
 	}
-	
-	private Collection<Node> nodes () {
+
+	private Collection<Node> nodes() {
 		return nodeMap.values();
 	}
-	
-	public void  addObject  (Object user) throws AlreadyMemberException {
+
+	public void addObject(Object user) throws AlreadyMemberException {
 		if (hasObject(user)) {
-			throw new AlreadyMemberException ("Object " + user + " is already in the graph");
-		}
-		else {
-			addNode(new Node (user));
+			throw new AlreadyMemberException("Object " + user + " is already in the graph");
+		} else {
+			addNode(new Node(user));
 		}
 	}
-	
-	public void addDirectedArc (Object p, Object c, double val) 
-					throws AlreadyMemberException, NotMemberException {
+
+	public void addDirectedArc(Object p, Object c, double val) throws AlreadyMemberException, NotMemberException {
 		Node pNode = findNode(p);
 		Node cNode = findNode(c);
-		DirectedArc arc= pNode.addDirectedArc(cNode, val);
-//		arc.setValue();
+		DirectedArc arc = pNode.addDirectedArc(cNode, val);
+		// arc.setValue();
 		arcAdded(arc);
 	}
-	
-	public void addDirectedArc(Object parent, Object child) 
-			throws AlreadyMemberException, NotMemberException {
-		addDirectedArc( parent,  child, 0.0);
-		
+
+	public void addDirectedArc(Object parent, Object child) throws AlreadyMemberException, NotMemberException {
+		addDirectedArc(parent, child, 0.0);
+
 	}
-	
-	public void addUndirectedArc (Object p, Object c) 
-	throws AlreadyMemberException, NotMemberException {
+
+	public void addUndirectedArc(Object p, Object c) throws AlreadyMemberException, NotMemberException {
 		Node pNode = findNode(p);
 		Node cNode = findNode(c);
 		arcAdded(pNode.addUndirectedArc(cNode));
 	}
-	
-	public void addNode (Node n) {
+
+	public void addNode(Node n) {
 		nodeMap.put(n.getUserObject(), n);
 		nodeAdded(n);
 	}
-	
-	public boolean hasObject (Object user) {
+
+	public boolean hasObject(Object user) {
 		return nodeMap.containsKey(user);
 	}
-	
-	public Iterator<Node> getNodes () {
+
+	public Iterator<Node> getNodes() {
 		return nodes().iterator();
 	}
-	
-	public Node findNode (Object user, boolean makeNode) throws NotMemberException {
+
+	public Node findNode(Object user, boolean makeNode) throws NotMemberException {
 		if (nodeMap.containsKey(user)) {
 			return nodeMap.get(user);
-		}
-		else {
+		} else {
 			if (makeNode) {
 				Node n = new Node(user);
 				addNode(n);
 				return n;
-			}
-			else {
-				throw new NotMemberException ("Node for " + user + " does not exist in the graph");
+			} else {
+				throw new NotMemberException("Node for " + user + " does not exist in the graph");
 			}
 		}
 	}
-	
-	public Node findNode (Object user) throws NotMemberException {
+
+	public Node findNode(Object user) throws NotMemberException {
 		return findNode(user, false);
 	}
-	
-	public void printNodes () {
-		
+
+	public void printNodes() {
+
 		System.out.println(nodeMap.values());
-		
+
 	}
-	
-	public void printout () {
-		System.out.println("Graph has " + nodes().size() + " nodes and " + arcs.size() + " arcs.");
+
+	public void printout() {
+		System.out.println("Graph has " + nodes().size() + " nodes and " + findArcs().size() + " arcs.");
 		for (Node n : nodes()) {
-			System.out.println(n);
+			System.out.print(n);
+			System.out.print("\t");
+			for (Arc a : n.getArcs()) {
+				if (a instanceof DirectedArc) {
+					if (a.getChildNode() == n)
+						continue;
+				}
+				System.out.print(a.getChildNode() + "\t");
+			}
+			System.out.print("\n");
 		}
 	}
-	
-	public Set<Arc> findArcs () {
+
+	public Set<Arc> findArcs() {
 		Set<Arc> arcs = new HashSet<Arc>();
 		for (Node n : nodes()) {
 			arcs.addAll(n.getArcs());
@@ -157,8 +163,8 @@ public class Graph {
 	public String printArcs() {
 		Set<Arc> s = findArcs();
 		return s.toString();
-			
-		}
+
+	}
 
 	public boolean deleteObject(Object user) {
 		try {
@@ -166,18 +172,16 @@ public class Graph {
 		} catch (NotMemberException e) {
 			return false;
 		}
-	
+
 		return true;
 	}
-			
-		
-	
-//	public void addArc (Arc a) {
-//		
-//	}
-	
+
+	// public void addArc (Arc a) {
+	//
+	// }
+
 	class NodeCounter {
-		public int countNodes () {
+		public int countNodes() {
 			return nodes().size();
 		}
 	}
@@ -185,80 +189,86 @@ public class Graph {
 	public void deleteNode(Node node) {
 		arcsDeleted(node.getArcs());
 		node.remove();
-		nodeMap.remove(node.getUserObject());	
+		nodeMap.remove(node.getUserObject());
 		nodeDeleted(node);
 	}
-	
-	public void addListener (GraphListener gl) {
+
+	public void addListener(GraphListener gl) {
 		listeners.add(gl);
 	}
-	
-	public void removeListener (GraphListener gl) {
+
+	public void removeListener(GraphListener gl) {
 		listeners.remove(gl);
 	}
-	
+
 	private void nodeAdded(Node n) {
 		for (Iterator<GraphListener> itr = listeners.iterator(); itr.hasNext();) {
 			itr.next().nodeAdded(n);
 		}
 	}
-	
+
 	private void nodeDeleted(Node n) {
 		for (Iterator<GraphListener> itr = listeners.iterator(); itr.hasNext();) {
 			itr.next().nodeDeleted(n);
 		}
 	}
-	
-	private void arcAdded (Arc a) {
+
+	private void arcAdded(Arc a) {
 		for (Iterator<GraphListener> itr = listeners.iterator(); itr.hasNext();) {
 			itr.next().arcAdded(a);
-		}		
-	}
-	
-	private void arcDeleted (Arc a) {
-		for (Iterator<GraphListener> itr = listeners.iterator(); itr.hasNext();) {
-			itr.next().arcDeleted(a);
-		}		
-	}
-	
-	private void arcsDeleted (Collection<Arc> arcs) {
-		for (Iterator<Arc> itr = arcs.iterator(); itr.hasNext();) {
-			arcDeleted(itr.next());
-		}		
-	}
-	
-	public void rread (String file) throws FileNotFoundException {
-		rread (new FileInputStream(file));
+		}
 	}
 
-	public void rread (InputStream stream) {
-		Scanner sc = new Scanner (stream);
-		StringTokenizer tokenizer; 
-//		String input;
-		try 
-		{
-			while (true) 
-			{
+	private void arcDeleted(Arc a) {
+		for (Iterator<GraphListener> itr = listeners.iterator(); itr.hasNext();) {
+			itr.next().arcDeleted(a);
+		}
+	}
+
+	private void arcsDeleted(Collection<Arc> arcs) {
+		for (Iterator<Arc> itr = arcs.iterator(); itr.hasNext();) {
+			arcDeleted(itr.next());
+		}
+	}
+
+	public void write(PrintStream out) {
+		for (Node n : nodeMap.values()) {
+			out.println("node " + n);
+		}
+		for (Arc a : findArcs()) {
+			out.println("dir-arc " + a.getParentNode() + " " + a.getChildNode() + " 10");
+		}
+	}
+
+	public void rread(String file) throws FileNotFoundException {
+		rread(new FileInputStream(file));
+	}
+
+	public void rread(InputStream stream) {
+		Scanner sc = new Scanner(stream);
+		StringTokenizer tokenizer;
+		// String input;
+		try {
+			while (true) {
 				System.err.flush();
-//				System.out.print(menu);
+				// System.out.print(menu);
 				if (stream == System.in) {
 					System.out.println(menu);
 				}
 				String input = sc.nextLine();
 				System.out.println("input is: " + input);
-				
+
 				tokenizer = new StringTokenizer(input);
 				String commandString;
 				try {
 					commandString = tokenizer.nextToken();
 				} catch (Exception e1) {
-					System.err.println ("No input specified");
+					System.err.println("No input specified");
 					continue;
 				}
 				Integer commandObj = commands.get(commandString.toLowerCase());
 				if (commandObj == null) {
-					System.err.println("Your command '" 
-								+ commandString + "' is not supported");
+					System.err.println("Your command '" + commandString + "' is not supported");
 					continue;
 				}
 				int command = commandObj;
@@ -269,9 +279,9 @@ public class Graph {
 						String nodeName = tokenizer.nextToken();
 						this.addObject(nodeName);
 					} catch (AlreadyMemberException ex) {
-						System.err.println (ex.getMessage());
+						System.err.println(ex.getMessage());
 					} catch (NoSuchElementException e) {
-						System.err.println ("No node parameter specified");
+						System.err.println("No node parameter specified");
 					}
 					break;
 				}
@@ -283,20 +293,18 @@ public class Graph {
 						String valueString = tokenizer.nextToken();
 						double val = Double.parseDouble(valueString);
 
-							try {
-								Node p = this.findNode(parent);
-								Node c = this.findNode(child);
-								this.addDirectedArc(parent, child, val);
-//								p.addDirectedArc (this.findNode(child));
-							} catch (GraphException e) {
-								System.err.println
-									(e.getMessage());
-								continue;
-							}
-						
+						try {
+							Node p = this.findNode(parent);
+							Node c = this.findNode(child);
+							this.addDirectedArc(parent, child, val);
+							// p.addDirectedArc (this.findNode(child));
+						} catch (GraphException e) {
+							System.err.println(e.getMessage());
+							continue;
+						}
+
 					} catch (NoSuchElementException e) {
-						System.err.println 
-						("Two node parameter objects should be specified: " + input);
+						System.err.println("Two node parameter objects should be specified: " + input);
 					}
 					break;
 				}
@@ -309,17 +317,13 @@ public class Graph {
 							Node n = this.findNode(user1);
 							Node n2 = this.findNode(user2);
 							this.addUndirectedArc(user1, user2);
-//							n.addUndirectedArc (this.findNode (user2));
-						}
-						catch (GraphException e) {
-							System.err.println
-								(e.getMessage());
+							// n.addUndirectedArc (this.findNode (user2));
+						} catch (GraphException e) {
+							System.err.println(e.getMessage());
 							continue;
 						}
-					}
-					catch (NoSuchElementException e) {
-						System.err.println 
-						("Two node parameter objects should be specified");
+					} catch (NoSuchElementException e) {
+						System.err.println("Two node parameter objects should be specified");
 					}
 					break;
 				}
@@ -329,18 +333,16 @@ public class Graph {
 						String arg2 = tokenizer.nextToken();
 						try {
 							deleteObjectArc(arg1, arg2);
-						}
-						catch (GraphException e) {
+						} catch (GraphException e) {
 							System.err.println(e.getMessage());
 						}
-					}
-					else {
+					} else {
 						// delete node
-						
+
 						if (!this.deleteObject(arg1)) {
-							System.err.println ("Your parameter is not in the graph");
+							System.err.println("Your parameter is not in the graph");
 						}
-					}				
+					}
 					break;
 				}
 				case PRINTOUT: {
@@ -349,10 +351,10 @@ public class Graph {
 				}
 				case GRAPH: {
 					// printout the graph
-					this.printout ();
+					this.printout();
 					break;
 				}
-				case NODES: {			
+				case NODES: {
 					this.printNodes();
 					break;
 				}
@@ -365,20 +367,18 @@ public class Graph {
 					// exit the program
 					System.exit(OK);
 				}
-					
+
+				}
 			}
-			} 
 			// need to check for duplicate nodes
 		}
-	
+
 		catch (NoSuchElementException e) {
 			// TODO Auto-generated catch block
-//			System.out.println("I am here");
-//			e.printStackTrace();
+			// System.out.println("I am here");
+			// e.printStackTrace();
 		}
 	}
-	
-
 
 	public boolean deleteObjectArc(Object arg1, Object arg2) throws NotMemberException {
 		Node n1 = findNode(arg1);
@@ -387,37 +387,39 @@ public class Graph {
 		if (a != null) {
 			arcDeleted(a);
 			return true;
-		}
-		else {
-			throw new NotMemberException("An undirected arc between " + n1 + " and " + n2 + " does not exist in the graph");
+		} else {
+			throw new NotMemberException(
+					"An undirected arc between " + n1 + " and " + n2 + " does not exist in the graph");
 		}
 
-		
 	}
 
-	public void display()
-	{
+	public void display() {
 		GraphViewer v = new GraphViewer(this);
 		v.display();
 	}
-	
-	
+
+	public void display(int panelSet) {
+		GraphViewer v = new GraphViewer(this, panelSet);
+		v.display();
+	}
+
 	HashSet<Node> setS = new HashSet<Node>();
-	SortedSet<Node> setSdash = new TreeSet<Node>(){
+	SortedSet<Node> setSdash = new TreeSet<Node>() {
 		public boolean contains(Object o) {
-			ArrayList<Node> list = new ArrayList<Node> (this);
+			ArrayList<Node> list = new ArrayList<Node>(this);
 			return list.contains(o);
 		}
-			
+
 	};
-	
-	public void dijkstra (Node source, Node sink, int direction) {
+
+	public void dijkstra(Node source, Node sink, int direction) {
 		switch (direction) {
 		case DIRECT:
 
-			dijkstra (source);
+			dijkstra(source);
 			break;
-		case REVERSE: 
+		case REVERSE:
 			dijkstraReverse(sink);
 			break;
 		case BIDIRECT:
@@ -425,231 +427,255 @@ public class Graph {
 			break;
 		}
 	}
-	
-	
-	public void dijkstra (Node source) {
 
-		source.shortestPath=0;
+	public void dijkstra(Node source) {
+
+		source.shortestPath = 0;
 		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
-	    nodeQueue.add(source);
-	    while (!nodeQueue.isEmpty()) {
-	    	 System.out.println("node queue: " + nodeQueue);
-		    Node parentNode = nodeQueue.poll();
+		nodeQueue.add(source);
+		while (!nodeQueue.isEmpty()) {
+			System.out.println("node queue: " + nodeQueue);
+			Node parentNode = nodeQueue.poll();
 
-		    for (Node childNode : parentNode.getNeighbors())
-            {
-		    	DirectedArc arc = parentNode.getDirectedArc(childNode);            
-                childNode = arc.child;
-                double weight = arc.value;
-                double distanceViaChild = parentNode.shortestPath + weight;
-                
-                if (distanceViaChild < childNode.shortestPath) {
-        //		    nodeQueue.remove(childNode);
-        		    childNode.shortestPath = distanceViaChild ;
-        		    childNode.previous = parentNode;
-        		    nodeQueue.add(childNode);
-        		    
-        		}
-            }
-		    
-	       }
-	      }
-                
-         public static List<Node> getPathTo(Node targetNode)
-                {
-                    List<Node> pathTillNow = new ArrayList<Node>();
-                    for (Node n1 = targetNode; n1 != null; n1 = n1.previous){
-                        pathTillNow.add(n1);
-                        }
-                    
-                    Collections.reverse(pathTillNow);
-                    return pathTillNow;
-                }
-        public  void printoutShortestPath(){
-        	
- //        dijkstra(nodes.get(0));
-          for (Node nano : nodes())
-		{
-		    System.out.println("Distance traversed to reach " + nano + ": " + nano.shortestPath);
-		    List<Node> pathTaken = getPathTo(nano);
-		    System.out.println("Directed path traversed: " + pathTaken);
-		}
-        }
-        
-        public void dijkstraReverse (Node sink) {
-    		sink.shortestPath=0;
-    		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
-    	    nodeQueue.add(sink);
-    	    while (!nodeQueue.isEmpty()) {
-    	    	 System.out.println("node queue: " + nodeQueue);
-    		    Node childNode =  nodeQueue.poll();
+			for (Node childNode : parentNode.getNeighbors()) {
+				DirectedArc arc = parentNode.getDirectedArc(childNode);
+				childNode = arc.child;
+				double weight = arc.value;
+				double distanceViaChild = parentNode.shortestPath + weight;
 
-    		    for (Node parentNode : childNode.getNeighbors1())
-                {
-    		    	DirectedArc arc = childNode.getDirectedArc1(parentNode);            
-                    parentNode = arc.parent;
-                    double weight = arc.value;
-                    double distanceViaParent = childNode.shortestPath + weight;
-                    
-                    if (distanceViaParent < parentNode.shortestPath) {
-            //		    nodeQueue.remove(childNode);
-            		    parentNode.shortestPath = distanceViaParent ;
-            		    parentNode.previous = childNode;
-            		    nodeQueue.add(parentNode);
-            		    
-            		}
-                }
-    		    
-    	       }
-    	      }
-        
-//        private boolean haveCommonMember (PriorityQueue a, PriorityQueue b) {
-//        	Set aSet = new HashSet (a);
-//        	aSet.retainAll(b);
-//        	return !aSet.isEmpty();
-//        }
-        
-        private Set<Node> haveCommonMember (PriorityQueue a, PriorityQueue b) {
-        	Set<Node> aSet = new HashSet (a);
-        	aSet.retainAll(b);
-        	if(!aSet.isEmpty()){
-        		return aSet;
-        	}
-        	return null;
-        }
-        
+				if (distanceViaChild < childNode.shortestPath) {
+					// nodeQueue.remove(childNode);
+					childNode.shortestPath = distanceViaChild;
+					childNode.previous = parentNode;
+					nodeQueue.add(childNode);
 
-		public void biDijkstra(Node source, Node sink) {
-
-			source.shortestPath=0;
-			sink.backwardShortestPath=0;
-			PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
-		    nodeQueue.add(source);
-		     PriorityQueue<Node> nodeQueue1 = new PriorityQueue<Node>();
-    	    nodeQueue1.add(sink);
-    	    
-    //	    while (!haveCommonMember(nodeQueue, nodeQueue1)) {
-    	    while (!isSearchDone(nodeQueue, nodeQueue1)) {
-    	    	
-       		    System.out.println("node queue: " + nodeQueue);
-    		    System.out.println("node queue1: " + nodeQueue1);
-
-    		    Node parentNode = nodeQueue.poll();
-    		    System.out.println("p node is: " + parentNode);
-    		    System.out.println("p neigbors: " + parentNode.getNeighbors());
-    		    for (Node childNode : parentNode.getNeighbors())
-                {
-    		    	DirectedArc arc = parentNode.getDirectedArc(childNode);            
-                    childNode = arc.child;
-                    double weight = arc.value;
-                    double distanceViaChild = parentNode.shortestPath + weight;
-                    
-                    if (distanceViaChild < childNode.shortestPath) {
-            //		    nodeQueue.remove(childNode);
-            		    childNode.shortestPath = distanceViaChild ;
-            		    childNode.previous = parentNode;
-            		    nodeQueue.add(childNode);
-            		    
-            		}
-               
-                }
-    		    
-       		    System.out.println("middle node queue: " + nodeQueue);
-    		    System.out.println("middle node queue1: " + nodeQueue1);
-
-    		    if (isSearchDone(nodeQueue, nodeQueue1)) {
-    		    		break;
-    		    }
-    		    
-    	        Node childNode =  nodeQueue1.poll();
-    		    System.out.println("c node is: " + childNode);
-    		    System.out.println("c neighbors: " + childNode.getNeighbors1());
-    		    for (Node parentNode1 : childNode.getNeighbors1())
-                {
-    		    	DirectedArc arc = childNode.getDirectedArc1(parentNode1);            
-                    parentNode1 = arc.parent;
-                   
-                    double weight = arc.value;
-                    double distanceViaParent = childNode.backwardShortestPath + weight;
-                    
-                    if (distanceViaParent < parentNode1.backwardShortestPath) {
-            //		    nodeQueue.remove(childNode);
-            		    parentNode1.backwardShortestPath = distanceViaParent ;
-            		    parentNode1.previous = childNode;
-            		    nodeQueue1.add(parentNode1);
-            		    
-            		}
-                }
-    		    
-    	    }
-		}
-
-		private boolean isSearchDone(PriorityQueue q1, PriorityQueue q2) {
-			Set<Node> commonMembers = haveCommonMember(q1,q2);
-			if (commonMembers == null) {
-			return false;
-			}
-			else {
-				
-				for (Node n : commonMembers) {
-					if (n.isPermanent())
-						return true;
 				}
-				return false;
-				
 			}
-		}
-}
-			
-		
-          
-	        
-                
-//		setSdash.addAll(nodeMap.values());
-//		
-//		for (Node n : nodeMap.values()) {
-//			System.out.println( n + "contains: " + setSdash.contains(n));
-//			System.out.println( n + "equals: " + n.equals(n));
-//		}
-//
-//		while ((currentNode = setSdash.first()) != null)
-//        {
-//			System.out.println("setS: " + setS);
-//			System.out.println("setSdash: " + setSdash);
-//			System.out.println("contains: " + setSdash.contains(currentNode));
-//			if(currentNode==nodes.get(0)){
-//				currentNode.permanentLabel =0;
-//			}
-//			
-//		   if(currentNode==nodes.subList(1, nodes.size()))
-//		   {
-//			   currentNode.temporaryLabel=Double.POSITIVE_INFINITY;
-//			   
-//		   }
-////            if ( currentNode.isPermanent()) {
-////            	break;
-////            }
-//            
-//            // if last node (destination)reached then stop
-//            if (currentNode == setSdash.last())
-//            {
-//            	break;
-//            }
-//            else {
-//            	 setSdash.remove(currentNode);
-////    	         shortestPath.put(node, distance);//Update the shortest distance.
-////    	         graph.setSdash.add(node);// adding the updated distance according to the new shortest distance found    
-//
-//            setS.add(currentNode);
-//            currentNode.updateChildrenNodes();
-//            System.out.println("permanent " + setSdash.first().permanentLabel);
-//            
-//			}
-//        }
-//		return setS;
-		 
-	
-	
-	
- 
 
+		}
+	}
+	
+	/* Implemnetation of dijkstra's SPP using priority queue
+	 * @param source
+	 */
+	public void dijkstra_i1(Node source, Node sink) {
+
+		source.shortestPath = 0;
+		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>(); //S
+		//initialize S
+		nodeQueue.add(source);
+		
+		//until every discovered node is processed
+		while (!nodeQueue.isEmpty()) {
+			
+			System.out.println("node queue: " + nodeQueue);
+			//retrive the smallest cost node
+			Node parentNode = nodeQueue.poll();
+			
+			//for every child node discovered 
+			for (Node childNode : parentNode.getNeighbors()) {
+				DirectedArc arc = parentNode.getDirectedArc(childNode);
+				childNode = arc.child;
+				double weight = arc.value;
+				//Dj = Di + Cij
+				double distanceViaChild = parentNode.shortestPath + weight;
+				//if a shorter route is found then update level
+				if (distanceViaChild < childNode.shortestPath) {
+					// nodeQueue.remove(childNode);
+					childNode.shortestPath = distanceViaChild;
+					childNode.previous = parentNode;
+					nodeQueue.add(childNode);
+				}
+			}
+
+		}
+	}
+
+	public static List<Node> getPathTo(Node targetNode) {
+		List<Node> pathTillNow = new ArrayList<Node>();
+		for (Node n1 = targetNode; n1 != null; n1 = n1.previous) {
+			pathTillNow.add(n1);
+		}
+
+		Collections.reverse(pathTillNow);
+		return pathTillNow;
+	}
+
+	public void printoutShortestPath() {
+
+		// dijkstra(nodes.get(0));
+		for (Node nano : nodes()) {
+			System.out.println("Distance traversed to reach " + nano + ": " + nano.shortestPath);
+			List<Node> pathTaken = getPathTo(nano);
+			System.out.println("Directed path traversed: " + pathTaken);
+		}
+	}
+
+	public void dijkstraReverse(Node sink) {
+		sink.shortestPath = 0;
+		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
+		nodeQueue.add(sink);
+		while (!nodeQueue.isEmpty()) {
+			System.out.println("node queue: " + nodeQueue);
+			Node childNode = nodeQueue.poll();
+
+			for (Node parentNode : childNode.getNeighbors1()) {
+				DirectedArc arc = childNode.getDirectedArc1(parentNode);
+				parentNode = arc.parent;
+				double weight = arc.value;
+				double distanceViaParent = childNode.shortestPath + weight;
+
+				if (distanceViaParent < parentNode.shortestPath) {
+					// nodeQueue.remove(childNode);
+					parentNode.shortestPath = distanceViaParent;
+					parentNode.previous = childNode;
+					nodeQueue.add(parentNode);
+
+				}
+			}
+
+		}
+	}
+
+	// private boolean haveCommonMember (PriorityQueue a, PriorityQueue b) {
+	// Set aSet = new HashSet (a);
+	// aSet.retainAll(b);
+	// return !aSet.isEmpty();
+	// }
+
+	private Set<Node> haveCommonMember(PriorityQueue a, PriorityQueue b) {
+		Set<Node> aSet = new HashSet(a);
+		aSet.retainAll(b);
+		if (!aSet.isEmpty()) {
+			return aSet;
+		}
+		return null;
+	}
+
+	public void biDijkstra(Node source, Node sink) {
+
+		source.shortestPath = 0;
+		sink.backwardShortestPath = 0;
+		PriorityQueue<Node> nodeQueue = new PriorityQueue<Node>();
+		nodeQueue.add(source);
+		PriorityQueue<Node> nodeQueue1 = new PriorityQueue<Node>();
+		nodeQueue1.add(sink);
+
+		// while (!haveCommonMember(nodeQueue, nodeQueue1)) {
+		while (!isSearchDone(nodeQueue, nodeQueue1)) {
+
+			System.out.println("node queue: " + nodeQueue);
+			System.out.println("node queue1: " + nodeQueue1);
+
+			Node parentNode = nodeQueue.poll();
+			System.out.println("p node is: " + parentNode);
+			System.out.println("p neigbors: " + parentNode.getNeighbors());
+			for (Node childNode : parentNode.getNeighbors()) {
+				DirectedArc arc = parentNode.getDirectedArc(childNode);
+				childNode = arc.child;
+				double weight = arc.value;
+				double distanceViaChild = parentNode.shortestPath + weight;
+
+				if (distanceViaChild < childNode.shortestPath) {
+					// nodeQueue.remove(childNode);
+					childNode.shortestPath = distanceViaChild;
+					childNode.previous = parentNode;
+					nodeQueue.add(childNode);
+
+				}
+
+			}
+
+			System.out.println("middle node queue: " + nodeQueue);
+			System.out.println("middle node queue1: " + nodeQueue1);
+
+			if (isSearchDone(nodeQueue, nodeQueue1)) {
+				break;
+			}
+
+			Node childNode = nodeQueue1.poll();
+			System.out.println("c node is: " + childNode);
+			System.out.println("c neighbors: " + childNode.getNeighbors1());
+			for (Node parentNode1 : childNode.getNeighbors1()) {
+				DirectedArc arc = childNode.getDirectedArc1(parentNode1);
+				parentNode1 = arc.parent;
+
+				double weight = arc.value;
+				double distanceViaParent = childNode.backwardShortestPath + weight;
+
+				if (distanceViaParent < parentNode1.backwardShortestPath) {
+					// nodeQueue.remove(childNode);
+					parentNode1.backwardShortestPath = distanceViaParent;
+					parentNode1.previous = childNode;
+					nodeQueue1.add(parentNode1);
+
+				}
+			}
+
+		}
+	}
+
+	private boolean isSearchDone(PriorityQueue q1, PriorityQueue q2) {
+		Set<Node> commonMembers = haveCommonMember(q1, q2);
+		if (commonMembers == null) {
+			return false;
+		} else {
+
+			for (Node n : commonMembers) {
+				if (n.isPermanent())
+					return true;
+			}
+			return false;
+
+		}
+	}
+
+	public Stream<Node> getNodeStream() {
+		// TODO Auto-generated method stub
+		return nodeMap.values().stream();
+	}
+}
+
+// setSdash.addAll(nodeMap.values());
+//
+// for (Node n : nodeMap.values()) {
+// System.out.println( n + "contains: " + setSdash.contains(n));
+// System.out.println( n + "equals: " + n.equals(n));
+// }
+//
+// while ((currentNode = setSdash.first()) != null)
+// {
+// System.out.println("setS: " + setS);
+// System.out.println("setSdash: " + setSdash);
+// System.out.println("contains: " + setSdash.contains(currentNode));
+// if(currentNode==nodes.get(0)){
+// currentNode.permanentLabel =0;
+// }
+//
+// if(currentNode==nodes.subList(1, nodes.size()))
+// {
+// currentNode.temporaryLabel=Double.POSITIVE_INFINITY;
+//
+// }
+//// if ( currentNode.isPermanent()) {
+//// break;
+//// }
+//
+// // if last node (destination)reached then stop
+// if (currentNode == setSdash.last())
+// {
+// break;
+// }
+// else {
+// setSdash.remove(currentNode);
+//// shortestPath.put(node, distance);//Update the shortest distance.
+//// graph.setSdash.add(node);// adding the updated distance according to the
+// new shortest distance found
+//
+// setS.add(currentNode);
+// currentNode.updateChildrenNodes();
+// System.out.println("permanent " + setSdash.first().permanentLabel);
+//
+// }
+// }
+// return setS;

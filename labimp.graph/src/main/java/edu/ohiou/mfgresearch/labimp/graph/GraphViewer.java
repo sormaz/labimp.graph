@@ -118,7 +118,7 @@ public class GraphViewer extends JFrame implements GraphListener
 //	//	\engineering.ENT-292-CART
 //		System.out.println(System.getProperty("user.dir")); // C:
 //	//	\ISE589_EclipseWorkspace\graph-project
-		GraphViewer v = new GraphViewer(new Graph(), VIEW_2D);
+		GraphViewer v = new GraphViewer(new Graph(), VIEW_2D );
 		v.display();
 	}
 	
@@ -126,8 +126,8 @@ public class GraphViewer extends JFrame implements GraphListener
 		JScrollPane fromListScrollPane;
 		JSplitPane splitPane;
 		Draw2DPanel canvas;
-		DrawWFPanel canvasWF;
-		AnimPanel canvasAnim;
+		DrawWFPanel canvasWF = new DrawWFPanel();
+		AnimPanel canvasAnim; // = new AnimPanel();
 		JList arcList;
 		
 		JList<Node> fromList = new JList<Node>(nodeListModel);

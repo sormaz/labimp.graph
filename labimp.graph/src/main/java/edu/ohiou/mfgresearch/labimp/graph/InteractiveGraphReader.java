@@ -48,6 +48,7 @@ public class InteractiveGraphReader implements GraphReader {
 		commands.put("exit", EXIT);
 		commands.put("quit", QUIT);
 		commands.put("a", DIR_ARC);
+		commands.put("arc", DIR_ARC);
 		commands.put("c",  COMMENT);
 		commands.put("p",  COMMENT);
 		commands.put("#",  COMMENT);
