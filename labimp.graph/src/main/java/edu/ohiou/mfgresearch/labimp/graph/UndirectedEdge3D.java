@@ -34,7 +34,7 @@ public class UndirectedEdge3D extends Edge3D
 		super(arc, layouterWF3D);
 	}
 	
-	public LinkedList getShapeList (DrawWFPanel canvasWF) 
+	public LinkedList geetShapeList (DrawWFPanel canvasWF) 
 	{
 		Node[] nodes = arc.getNodes();
 		Node node1 = nodes[0];
@@ -52,7 +52,7 @@ public class UndirectedEdge3D extends Edge3D
 //		list.add(new Line2D.Double(p3dParent.x, p3dParent.y,
 //				p3dChild.x, p3dChild.y));
 		
-		list.addAll(new LineSegment(p3dParent, p3dChild).getShapeList(canvasWF));
+		list.addAll(new LineSegment(p3dParent, p3dChild).geetShapeList(canvasWF));
 		
 //		try 
 //		{
@@ -67,7 +67,7 @@ public class UndirectedEdge3D extends Edge3D
 	
 	public void makeShapeSets (DrawWFPanel canvasWF)
 	{
-		canvasWF.addDrawShapes(Color.red, getShapeList(canvasWF));
+		canvasWF.addDrawShapes(Color.red, geetShapeList(canvasWF));
 	}
 	
 	public BranchGroup createSceneGraph()

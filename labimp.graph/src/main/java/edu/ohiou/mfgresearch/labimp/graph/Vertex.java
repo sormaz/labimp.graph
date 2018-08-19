@@ -21,7 +21,7 @@ public class Vertex extends DrawObject {
 		this (n, new Point2D.Double());
 	}
 	
-	public LinkedList<Shape> getDrawList () {
+	public LinkedList<Shape> geetDrawList () {
 		LinkedList<Shape>  shapes = new LinkedList<Shape>();
 		double diameter = RADIUS * 2;
 		shapes.add(new Ellipse2D.Double(position.x - RADIUS, position.y - RADIUS,
@@ -36,15 +36,15 @@ public class Vertex extends DrawObject {
 	}
 
 	
-	public LinkedList<Shape> getFillList() {
+	public LinkedList<Shape> geetFillList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	
-	public LinkedList<DrawString> getStringList() {
+	public LinkedList<DrawString> geetStringList() {
 		LinkedList<DrawString> strings = new LinkedList<DrawString>();
-		strings.add(new DrawString(node.toString(), (float) gettPosition().getX(), (float) gettPosition().getY()));
+		strings.add(new DrawString(node.toString(), (float) geettPosition().getX(), (float) geettPosition().getY()));
 		return strings;
 	}
 

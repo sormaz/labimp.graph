@@ -89,14 +89,14 @@ public class GraphLayouter3D extends ImpObject implements Layouter, GraphListene
 	
 	public void makeShapeSets (DrawWFPanel canvasWF)
 	{
-		canvasWF.addDrawShapes(Color.blue, getShapeList(canvasWF));
+		canvasWF.addDrawShapes(Color.blue, geetShapeList(canvasWF));
 	}
 	
-	public LinkedList getShapeList(DrawWFPanel canvasWF) 
+	public LinkedList geetShapeList(DrawWFPanel canvasWF) 
 	{
 		LinkedList list = new LinkedList();
 		for (Vertex3D v : vertices.values()) {
-			list.addAll(v.getShapeList(canvasWF));
+			list.addAll(v.geetShapeList(canvasWF));
 		}
 		for (Edge3D e : edges) 
 		{
@@ -111,11 +111,11 @@ public class GraphLayouter3D extends ImpObject implements Layouter, GraphListene
 //				list.addAll(ude3d.getShapeList(canvasWF));
 //			}
 			if(e instanceof DirectedEdge3D)
-				list.addAll(e.getShapeList(canvasWF));
+				list.addAll(e.geetShapeList(canvasWF));
 			else
 			{
 				e.makeShapeSets(canvasWF);
-				list.addAll(e.getShapeList(canvasWF));
+				list.addAll(e.geetShapeList(canvasWF));
 			}
 		}
 		return list;

@@ -83,32 +83,32 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 	
 	
 	// ExtendDrawObject - Drawable2D interface
-	public LinkedList<Shape> getDrawList() {
+	public LinkedList<Shape> geetDrawList() {
 		LinkedList<Shape> shapes = new LinkedList<Shape>();
 		for (Vertex v : vertices.values()) {
-			shapes.addAll(v.getDrawList());
+			shapes.addAll(v.geetDrawList());
 		}
 		for (Edge e : edgeMap.values()) {
-			shapes.addAll(e.getDrawList());
+			shapes.addAll(e.geetDrawList());
 		}
 		return shapes;
 	}
 
 
-	public LinkedList<Shape> getFillList() {
+	public LinkedList<Shape> geetFillList() {
 	
 		return new LinkedList<Shape>();
 	}
 	
 	
-	public LinkedList<DrawString> getStringList() {
+	public LinkedList<DrawString> geetStringList() {
 	
 		LinkedList<DrawString> strings = new LinkedList<DrawString>();
 		for (Vertex v : vertices.values()) {
-			strings.addAll(v.getStringList());
+			strings.addAll(v.geetStringList());
 		}
 		for (Edge e : edgeMap.values()) {
-			strings.addAll(e.getStringList());
+			strings.addAll(e.geetStringList());
 		}
 		return strings;
 	}

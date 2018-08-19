@@ -13,8 +13,8 @@ public class DirectedEdge extends Edge {
 	
 	public void reposition() {
 		Point2D.Double pos= new Point2D.Double();
-		Point2D parentPosition = layouter.getVertex(arc.getParentNode()).gettPosition();
-		Point2D childPosition = layouter.getVertex(arc.getChildNode()).gettPosition();
+		Point2D parentPosition = layouter.getVertex(arc.getParentNode()).geettPosition();
+		Point2D childPosition = layouter.getVertex(arc.getChildNode()).geettPosition();
 		pos.x = (parentPosition.getX() + childPosition.getX())/2.;
 		pos.y = (parentPosition.getY() + childPosition.getY())/2.;
 		settPosition(pos);
@@ -28,10 +28,10 @@ public class DirectedEdge extends Edge {
 	}
 
 	
-	public LinkedList<Shape> getDrawList() {
+	public LinkedList<Shape> geetDrawList() {
 		LinkedList<Shape> shapes = new LinkedList<Shape>();
-		Point2D parentPosition = layouter.getVertex(arc.getParentNode()).gettPosition();
-		Point2D childPosition = layouter.getVertex(arc.getChildNode()).gettPosition();
+		Point2D parentPosition = layouter.getVertex(arc.getParentNode()).geettPosition();
+		Point2D childPosition = layouter.getVertex(arc.getChildNode()).geettPosition();
 
 		shapes.add(new Line2D.Double(parentPosition.getX(), parentPosition.getY(),
 				childPosition.getX(), childPosition.getY()));
@@ -39,7 +39,7 @@ public class DirectedEdge extends Edge {
 	}
 
 	
-	public LinkedList<Shape> getFillList() {
+	public LinkedList<Shape> geetFillList() {
 		// TODO Auto-generated method stub
 		return new LinkedList<Shape>();
 	}
