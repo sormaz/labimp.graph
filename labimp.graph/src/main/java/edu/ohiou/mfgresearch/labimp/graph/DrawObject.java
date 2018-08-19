@@ -29,31 +29,21 @@ public abstract class DrawObject implements Drawable2D {
 		// TODO Auto-generated method stub
 
 	}
-
-
-
 	
-	public JPanel gettCanvas() {
+	public JPanel geettCanvas() {
 		return canvas;
 	}
 
-
-
-
-
-	public GraphicsConfiguration getGraphicsConfig() {
+	public GraphicsConfiguration geetGraphicsConfig() {
 		// TODO Auto-generated method stub
 		return new GraphicsConfiguration();
 	}
 
 	
-	public Point2D gettPosition() {
+	public Point2D geettPosition() {
 		// TODO Auto-generated method stub
 		return position;
 	}
-
-
-
 	
 	public Collection giveSelectables() {
 		
@@ -65,7 +55,7 @@ public abstract class DrawObject implements Drawable2D {
 
 	
 	public void makeDrawSets() {
-		canvas.addDrawShapes(Color.red, getDrawList());
+		canvas.addDrawShapes(Color.red, geetDrawList());
 
 	}
 

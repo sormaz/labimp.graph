@@ -106,7 +106,7 @@ public class Vertex3D extends ImpObject
 //		list.add(new Ellipse2D.Double(p3d.x - RADIUS, p3d.y - RADIUS,
 //										diameter ,diameter));
 		list.addAll(new Ellipse(RADIUS, RADIUS, p3d, new Vector3d(0,1,0), 
-				new Vector3d(0,0,1)).getShapeList(canvasWF));
+				new Vector3d(0,0,1)).geetShapeList(canvasWF));
 		return list;
 	}
 	

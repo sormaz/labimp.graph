@@ -25,8 +25,8 @@ public class UndirectedEdge extends Edge {
 	
 	public void reposition() {
 		Point2D.Double pos= new Point2D.Double();
-		Point2D parentPosition = layouter.getVertex(arc.getNodes()[0]).gettPosition();
-		Point2D childPosition = layouter.getVertex(arc.getNodes()[1]).gettPosition();
+		Point2D parentPosition = layouter.getVertex(arc.getNodes()[0]).geettPosition();
+		Point2D childPosition = layouter.getVertex(arc.getNodes()[1]).geettPosition();
 		pos.x = (parentPosition.getX() + childPosition.getX())/2.;
 		pos.y = (parentPosition.getY() + childPosition.getY())/2.;
 		settPosition(pos);
@@ -45,10 +45,10 @@ public class UndirectedEdge extends Edge {
 	 * @see edu.ohiou.labimp.basis.Drawable2D#getDrawList()
 	 */
 	
-	public LinkedList<Shape> getDrawList() {
+	public LinkedList<Shape> geetDrawList() {
 		LinkedList<Shape> shapes = new LinkedList<Shape>();
-		Point2D parentPosition = layouter.getVertex(arc.getNodes()[0]).gettPosition();
-		Point2D childPosition = layouter.getVertex(arc.getNodes()[1]).gettPosition();
+		Point2D parentPosition = layouter.getVertex(arc.getNodes()[0]).geettPosition();
+		Point2D childPosition = layouter.getVertex(arc.getNodes()[1]).geettPosition();
 
 		shapes.add(new Line2D.Double(parentPosition.getX(), parentPosition.getY(),
 				childPosition.getX(), childPosition.getY()));
@@ -60,7 +60,7 @@ public class UndirectedEdge extends Edge {
 	 * @see edu.ohiou.labimp.basis.Drawable2D#getFillList()
 	 */
 	
-	public LinkedList<Shape> getFillList() {
+	public LinkedList<Shape> geetFillList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

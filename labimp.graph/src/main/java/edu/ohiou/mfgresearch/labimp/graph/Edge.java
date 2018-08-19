@@ -24,7 +24,7 @@ public abstract class Edge extends DrawObject {
 
 
 	
-	public LinkedList<DrawString> getStringList() {
+	public LinkedList<DrawString> geetStringList() {
 		reposition();
 		LinkedList<DrawString> strings = new LinkedList<DrawString>();
 		strings.add(new DrawString(arc.toString(), (float) position.x, (float) position.y));

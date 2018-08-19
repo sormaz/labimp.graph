@@ -111,11 +111,11 @@ public class GraphLayouter3D extends ImpObject implements Layouter, GraphListene
 //				list.addAll(ude3d.getShapeList(canvasWF));
 //			}
 			if(e instanceof DirectedEdge3D)
-				list.addAll(e.getShapeList(canvasWF));
+				list.addAll(e.geetShapeList(canvasWF));
 			else
 			{
 				e.makeShapeSets(canvasWF);
-				list.addAll(e.getShapeList(canvasWF));
+				list.addAll(e.geetShapeList(canvasWF));
 			}
 		}
 		return list;

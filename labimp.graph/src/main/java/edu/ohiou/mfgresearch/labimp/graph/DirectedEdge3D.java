@@ -55,7 +55,7 @@ public class DirectedEdge3D extends Edge3D
 		LinkedList list = new LinkedList();
 //		list.add(new Line2D.Double(p3dParent.x, p3dParent.y,
 //				p3dChild.x, p3dChild.y));
-		list.addAll(new LineSegment(p3dParent, p3dChild).getShapeList(canvasWF));
+		list.addAll(new LineSegment(p3dParent, p3dChild).geetShapeList(canvasWF));
 		
 		
 //		try 
