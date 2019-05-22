@@ -40,11 +40,16 @@ public class GraphViewer extends JFrame implements GraphListener
 	
 	public GraphViewer (Graph g, int options) 
 	{
+		this (g, new GraphLayouter(g, new Point2D.Double()), options);
+	}
+	
+	public GraphViewer (Graph g, GraphLayouter lay, int options) 
+	{
 		graph = g;	
 		graph.addListener(this);
 		nodeListModel = new DefaultListModel<Node>();
 		setViewOptions(options);
-		layouter = new GraphLayouter(graph, new Point2D.Double());
+		layouter = lay;
 		layouter.makeLayout();
 		if (hasOption(VIEW_3D | VIEW_WF)) {
 			layouterWF3D = new GraphLayouter3D(graph);
@@ -57,8 +62,6 @@ public class GraphViewer extends JFrame implements GraphListener
 		init();
 //		remove adding nodes, read them from file instead
 //		addNodes();
-		
-		
 	}
 	
 	public GraphViewer(Graph g) {
