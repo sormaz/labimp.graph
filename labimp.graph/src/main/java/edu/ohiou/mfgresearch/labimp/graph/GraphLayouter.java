@@ -8,7 +8,7 @@ import java.util.*;
 import edu.ohiou.mfgresearch.labimp.basis.DrawString;
 
 public class GraphLayouter extends DrawObject implements Layouter, GraphListener {
-	Map<Node, Vertex> vertices = new HashMap<Node, Vertex>();
+	protected Map<Node, Vertex> vertices = new HashMap<Node, Vertex>();
 	
 //	Collection<Edge> edges = new ArrayList<Edge>();
 	Map<Arc, Edge> edgeMap = new HashMap();
