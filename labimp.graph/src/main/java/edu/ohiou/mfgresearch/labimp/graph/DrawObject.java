@@ -19,7 +19,7 @@ import edu.ohiou.mfgresearch.labimp.basis.GraphicsConfiguration;
 public abstract class DrawObject implements Drawable2D {
 	
 	Point2D.Double position;
-	Draw2DPanel canvas;
+	protected Draw2DPanel canvas;
 	
 	
 	public DrawObject (Point2D.Double point) {
