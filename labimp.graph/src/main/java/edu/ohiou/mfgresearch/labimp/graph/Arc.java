@@ -8,6 +8,8 @@ package edu.ohiou.mfgresearch.labimp.graph;
  *
  */
 public abstract class Arc implements Drawable {
+	
+	protected Object userObject;
 
 	/**
 	 * 

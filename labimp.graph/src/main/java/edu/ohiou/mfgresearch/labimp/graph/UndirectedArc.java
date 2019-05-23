@@ -13,14 +13,24 @@ public class UndirectedArc extends Arc{
 	/**
 	 * 
 	 */
-	public UndirectedArc(Node n1, Node n2) {
+	public UndirectedArc(Node n1, Node n2, Object o) {
 		nodes [0] = n1;
 		nodes [1] = n2;
+		userObject = o;
+	}
+	
+	public UndirectedArc(Node n1, Node n2) {
+		this (n1, n2,null);
 	}
 	
 	public String toString () {
-		return "UndArc<" + nodes[0].getUserObject() + 
-		"-" + nodes[1].getUserObject() + ">";
+		if (userObject == null) {
+			return "UndArc<" + nodes[0].getUserObject() + 
+					"-" + nodes[1].getUserObject() + ">";
+		}
+		else {
+			return userObject.toString();
+		}
 	}
 	/**
 	 * 
