@@ -77,6 +77,14 @@ public class Graph {
 			addNode(new Node(user));
 		}
 	}
+	
+	public void addDirectedArc(Object p, Object c, Object userObject) throws AlreadyMemberException, NotMemberException {
+		Node pNode = findNode(p);
+		Node cNode = findNode(c);
+		DirectedArc arc = pNode.addDirectedArc(cNode);
+		arc.setUserObejct(userObject);
+		arcAdded(arc);
+	}
 
 	public void addDirectedArc(Object p, Object c, double val) throws AlreadyMemberException, NotMemberException {
 		Node pNode = findNode(p);

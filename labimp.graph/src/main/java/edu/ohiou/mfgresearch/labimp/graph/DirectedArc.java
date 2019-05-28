@@ -77,6 +77,11 @@ public class DirectedArc extends Arc {
 		this.value = value;
 	}
 	
-	
+	public void setUserObejct(Object userObject){
+		this.userObject = userObject;
+	}
 
+	public Object getUserObject(){
+		return userObject;
+	}
 }
