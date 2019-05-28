@@ -265,7 +265,7 @@ public class GraphViewer extends JFrame implements GraphListener
 //			rightPanel = new JPanel();
 			
 			
-			graph.addListener(layouter);
+//			graph.addListener(layouter);
 			canvas = new Draw2DPanel(layouter, null);
 			layouter.settCanvas(canvas);
 			
