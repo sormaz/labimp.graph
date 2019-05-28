@@ -12,9 +12,11 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 	
 //	Collection<Edge> edges = new ArrayList<Edge>();
 	Map<Arc, Edge> edgeMap = new HashMap();
+	protected Graph graph;
 	
 	public GraphLayouter (Graph graph, Point2D.Double point) {
 		super (point);
+		this.graph = graph;
 		graph.addListener(this);
 		for (Iterator<Node> itr = graph.getNodes(); itr.hasNext();) {
 			Node n = itr.next();
