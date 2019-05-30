@@ -1,5 +1,6 @@
 package edu.ohiou.mfgresearch.labimp.graph;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.*;
 import java.util.LinkedList;
@@ -14,6 +15,7 @@ public class Vertex extends DrawObject {
 	public Vertex (Node n, Point2D.Double p) {
 		super (p);
 		node = n;
+		color = Color.BLUE;
 		Object o = n.getUserObject();
 		if (o instanceof DrawObject) {
 			setColor (((DrawObject) o ).getColor());
