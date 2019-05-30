@@ -20,8 +20,15 @@ public abstract class DrawObject implements Drawable2D {
 	
 	Point2D.Double position;
 	protected Draw2DPanel canvas;
+	Color color;
 	
 	
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
 	public DrawObject (Point2D.Double point) {
 		position = point;
 	}
@@ -55,7 +62,7 @@ public abstract class DrawObject implements Drawable2D {
 
 	
 	public void makeDrawSets() {
-		canvas.addDrawShapes(Color.red, geetDrawList());
+		canvas.addDrawShapes(color, geetDrawList());
 
 	}
 

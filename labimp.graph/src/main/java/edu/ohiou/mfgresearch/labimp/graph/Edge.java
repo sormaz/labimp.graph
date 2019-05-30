@@ -15,6 +15,10 @@ public abstract class Edge extends DrawObject {
 
 	public Edge(Arc arc, GraphLayouter layouter) {
 		super(new Point2D.Double());
+		Object o = arc.getUserObject();
+		if (o instanceof DrawObject) {
+			setColor (((DrawObject) o ).getColor());
+		}
 		this.layouter = layouter;
 		this.arc = arc;
 		reposition();

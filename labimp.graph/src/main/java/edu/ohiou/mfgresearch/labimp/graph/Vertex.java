@@ -14,6 +14,10 @@ public class Vertex extends DrawObject {
 	public Vertex (Node n, Point2D.Double p) {
 		super (p);
 		node = n;
+		Object o = n.getUserObject();
+		if (o instanceof DrawObject) {
+			setColor (((DrawObject) o ).getColor());
+		}
 
 	}
 	
@@ -46,6 +50,10 @@ public class Vertex extends DrawObject {
 		LinkedList<DrawString> strings = new LinkedList<DrawString>();
 		strings.add(new DrawString(node.toString(), (float) geettPosition().getX(), (float) geettPosition().getY()));
 		return strings;
+	}
+	
+	public String toToolTipString () {
+		return node.getUserObject().getClass().getName();
 	}
 
 }

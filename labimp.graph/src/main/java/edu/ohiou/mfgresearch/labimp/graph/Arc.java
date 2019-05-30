@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -23,7 +24,7 @@ public abstract class Arc implements Drawable {
 	abstract public Node getParentNode();
 	abstract public Node getChildNode();
 
-	public Object getObject() {
+	public Object getUserObject() {
 		return userObject;
 	}
 }
