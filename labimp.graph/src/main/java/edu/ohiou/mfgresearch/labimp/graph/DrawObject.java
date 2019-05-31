@@ -62,9 +62,9 @@ public abstract class DrawObject implements Drawable2D {
 
 	
 	public void makeDrawSets() {
-		System.out.println("in Draw Sets " + this.toString());
-		System.out.println("canvas is:" + canvas);
-		System.out.println("color is:" + color);
+//		System.out.println("in Draw Sets " + this.toString());
+//		System.out.println("canvas is:" + canvas);
+//		System.out.println("color is:" + color);
 		canvas.addDrawShapes(color, geetDrawList());
 
 	}
