@@ -55,7 +55,11 @@ public class Vertex extends DrawObject {
 	}
 	
 	public String toToolTipString () {
-		return node.getUserObject().getClass().getName();
+		Object u = node.getUserObject();
+		if (u instanceof DrawObject) {
+			return ((DrawObject) u).toToolTipString();
+		}
+		return u.toString();
 	}
 
 }
