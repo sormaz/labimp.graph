@@ -19,9 +19,16 @@ import edu.ohiou.mfgresearch.labimp.basis.GraphicsConfiguration;
 public abstract class DrawObject implements Drawable2D {
 	
 	Point2D.Double position;
-	Draw2DPanel canvas;
+	protected Draw2DPanel canvas;
+	Color color= Color.red;
 	
 	
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
 	public DrawObject (Point2D.Double point) {
 		position = point;
 	}
@@ -55,7 +62,10 @@ public abstract class DrawObject implements Drawable2D {
 
 	
 	public void makeDrawSets() {
-		canvas.addDrawShapes(Color.red, geetDrawList());
+//		System.out.println("in Draw Sets " + this.toString());
+//		System.out.println("canvas is:" + canvas);
+//		System.out.println("color is:" + color);
+		canvas.addDrawShapes(color, geetDrawList());
 
 	}
 

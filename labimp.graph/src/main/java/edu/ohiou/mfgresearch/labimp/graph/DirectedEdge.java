@@ -5,6 +5,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
+import edu.ohiou.mfgresearch.labimp.basis.DrawString;
+
 public class DirectedEdge extends Edge {
 
 	public DirectedEdge(DirectedArc arc, GraphLayouter layouter) {

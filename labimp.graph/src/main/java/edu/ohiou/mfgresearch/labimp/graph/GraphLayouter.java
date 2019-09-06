@@ -8,13 +8,15 @@ import java.util.*;
 import edu.ohiou.mfgresearch.labimp.basis.DrawString;
 
 public class GraphLayouter extends DrawObject implements Layouter, GraphListener {
-	Map<Node, Vertex> vertices = new HashMap<Node, Vertex>();
+	protected Map<Node, Vertex> vertices = new HashMap<Node, Vertex>();
 	
 //	Collection<Edge> edges = new ArrayList<Edge>();
 	Map<Arc, Edge> edgeMap = new HashMap();
+	protected Graph graph;
 	
 	public GraphLayouter (Graph graph, Point2D.Double point) {
 		super (point);
+		this.graph = graph;
 		graph.addListener(this);
 		for (Iterator<Node> itr = graph.getNodes(); itr.hasNext();) {
 			Node n = itr.next();
@@ -37,12 +39,14 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 	public void makeLayout() {
 		for (Vertex v : vertices.values()) {
 			v.settPosition(new Point2D.Double (50 *Math.random(), 50* Math.random()));
+			v.canvas = canvas;
 		}  
 	}
 	
 	public void repositionEdges() {
 		for (Edge e : edgeMap.values()) {
 			e.reposition();
+			e.canvas = canvas;
 		}
 	}
 	
@@ -53,7 +57,9 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 	// GraphListener interface
 	
 	public void nodeAdded(Node n) {
-		vertices.put(n, new Vertex (n));
+		Vertex v = new Vertex (n);
+		v.canvas = canvas;
+		vertices.put(n, v);
 		if (canvas != null) canvas.repaint();
 	}
 
@@ -65,16 +71,19 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 
 	
 	public void arcAdded(Arc a) {
+		Edge e;
 		if(a instanceof DirectedArc)
 		{
 //			System.out.println("Directed arc added");
-			edgeMap.put(a, new DirectedEdge((DirectedArc) a, this));
+			e = new DirectedEdge((DirectedArc) a, this);	
 		}
 		else
 		{
 //			System.out.println("Undirected arc added");
-			edgeMap.put(a, new UndirectedEdge((UndirectedArc) a, this));
-		}
+			e = new UndirectedEdge((UndirectedArc) a, this);
+					}
+		e.canvas = canvas;
+		edgeMap.put(a, e);
 		if (canvas != null) canvas.repaint();
 	}
 
@@ -95,6 +104,15 @@ public class GraphLayouter extends DrawObject implements Layouter, GraphListener
 			shapes.addAll(e.geetDrawList());
 		}
 		return shapes;
+	}
+	
+	public void makeDrawSets() {
+		for (Vertex v : vertices.values()) {
+			v.makeDrawSets();
+		}
+		for (Edge e : edgeMap.values()) {
+			e.makeDrawSets();
+		}
 	}
 
 

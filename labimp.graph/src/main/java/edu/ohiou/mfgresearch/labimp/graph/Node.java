@@ -98,8 +98,17 @@ public class Node implements Comparable<Node> {
 				+ parentMap.keySet().size() + ", children:" + childrenMap.keySet().size();
 	}
 
-	public String toString() {
+	public String toString(boolean showLabel) {
+		if (showLabel) {
 		return "Node<" + userObject + ">"; // + printArcs();
+		}
+		else {
+			return userObject.toString();
+		}
+	}
+	
+	public String toString () {
+		return toString(false);
 	}
 
 	public UndirectedArc addUndirectedArc(Node n) throws AlreadyMemberException {

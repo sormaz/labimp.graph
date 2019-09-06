@@ -12,16 +12,22 @@ public class DirectedArc extends Arc {
 	Node parent;
 	Node child;
 	double value;
+	
 	/**
 	 * 
 	 */
-	public DirectedArc(Node parent, Node child, double val) {
+	public DirectedArc(Node parent, Node child, double val, Object user) {
 		this.parent = parent;	
 		this.child = child;
 		parent.addChildArc(this);
 		child.addParentArc(this);
 		value = val;
+		userObject = user;
 	}
+	public DirectedArc(Node parent, Node child, double val) {
+		this(parent, child, val, null);
+	}
+	
 	
 	
 	public DirectedArc(Node parent, Node child) {
@@ -29,7 +35,12 @@ public class DirectedArc extends Arc {
 	}
 	
 	public String toString () {
+		if (userObject == null) {
 		return "DArc[" + parent.getUserObject() + "=>" + child.getUserObject() + "]"+ value ;
+		}
+		else {
+			return userObject.toString();
+		}
 	}
 	
 	
@@ -66,6 +77,11 @@ public class DirectedArc extends Arc {
 		this.value = value;
 	}
 	
-	
+	public void setUserObejct(Object userObject){
+		this.userObject = userObject;
+	}
 
+	public Object getUserObject(){
+		return userObject;
+	}
 }

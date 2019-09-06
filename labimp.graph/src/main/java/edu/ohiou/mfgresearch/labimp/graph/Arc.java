@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -8,6 +9,8 @@ package edu.ohiou.mfgresearch.labimp.graph;
  *
  */
 public abstract class Arc implements Drawable {
+	
+	protected Object userObject;
 
 	/**
 	 * 
@@ -20,4 +23,8 @@ public abstract class Arc implements Drawable {
 	abstract public Node [] getNodes();
 	abstract public Node getParentNode();
 	abstract public Node getChildNode();
+
+	public Object getUserObject() {
+		return userObject;
+	}
 }

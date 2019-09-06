@@ -1,5 +1,6 @@
 package edu.ohiou.mfgresearch.labimp.graph;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -15,8 +16,14 @@ public abstract class Edge extends DrawObject {
 
 	public Edge(Arc arc, GraphLayouter layouter) {
 		super(new Point2D.Double());
+		Object o = arc.getUserObject();
+		color = Color.GREEN;
+		if (o instanceof DrawObject) {
+			setColor (((DrawObject) o ).getColor());
+		}
 		this.layouter = layouter;
 		this.arc = arc;
+		canvas = layouter.canvas;
 		reposition();
 
 	}
