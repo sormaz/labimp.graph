@@ -109,7 +109,11 @@ public class GraphViewer extends JFrame implements GraphListener
 	}
 	
 	public void display() {
-		setTitle ("Graph display");
+		display ("Graph display");
+	}
+	
+	public void display(String title) {
+		setTitle (title);
 		setSize(600,400);
 //		this.pack();
 //		this.
