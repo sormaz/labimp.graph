@@ -6,11 +6,27 @@ import java.awt.geom.*;
 import java.util.LinkedList;
 
 import edu.ohiou.mfgresearch.labimp.basis.DrawString;
+import edu.ohiou.mfgresearch.labimp.basis.ViewObject;
 
 public class Vertex extends DrawObject {
 	
 	public static final double RADIUS = 0.1;
 	Node node;
+	
+	static private double VERTEX_TEXT_SIZE;
+	static private boolean SHOW_EDGE_LABEL;
+	{
+		String edgeString = ViewObject.getProperty( Vertex.class, "VERTEX_TEXT_SIZE");
+
+//		if (edgeString == null || edfgestrgin.equals("");
+		try {
+			VERTEX_TEXT_SIZE = Double.parseDouble(edgeString);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			VERTEX_TEXT_SIZE = Double.NaN;
+		}
+
+	}
 	
 	public Vertex (Node n, Point2D.Double p) {
 		super (p);
@@ -50,7 +66,7 @@ public class Vertex extends DrawObject {
 	
 	public LinkedList<DrawString> geetStringList() {
 		LinkedList<DrawString> strings = new LinkedList<DrawString>();
-		strings.add(new DrawString(node.toString(), (float) geettPosition().getX(), (float) geettPosition().getY()));
+		strings.add(new DrawString(node.toString(), (float) geettPosition().getX(), (float) geettPosition().getY(), VERTEX_TEXT_SIZE));
 		return strings;
 	}
 	
