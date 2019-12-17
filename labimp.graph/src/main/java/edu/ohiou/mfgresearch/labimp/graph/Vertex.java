@@ -17,12 +17,13 @@ public class Vertex extends DrawObject {
 	static private boolean SHOW_EDGE_LABEL;
 	{
 		String edgeString = ViewObject.getProperty( Vertex.class, "VERTEX_TEXT_SIZE");
-
-//		if (edgeString == null || edfgestrgin.equals("");
 		try {
 			VERTEX_TEXT_SIZE = Double.parseDouble(edgeString);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
+			VERTEX_TEXT_SIZE = Double.NaN;
+		} catch (NullPointerException e) {
+			// property does not exist, do not use size
 			VERTEX_TEXT_SIZE = Double.NaN;
 		}
 

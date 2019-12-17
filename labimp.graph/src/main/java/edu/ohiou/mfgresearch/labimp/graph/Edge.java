@@ -23,10 +23,19 @@ public abstract class Edge extends DrawObject {
 		try {
 			EDGE_TEXT_SIZE = Double.parseDouble(edgeString);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
+			// wrong format, do not use size
+			EDGE_TEXT_SIZE = Double.NaN;
+		} catch (NullPointerException e) {
+			// property does not exist, do not use size
 			EDGE_TEXT_SIZE = Double.NaN;
 		}
-		SHOW_EDGE_LABEL = Boolean.parseBoolean(showEdgeLabelText);
+		if (showEdgeLabelText == null) {
+			// property does not exist, use default to show labels
+			SHOW_EDGE_LABEL = true;
+		}
+		else {
+			SHOW_EDGE_LABEL = Boolean.parseBoolean(showEdgeLabelText);
+		}
 	}
 
 	public Edge(Arc arc, GraphLayouter layouter) {
