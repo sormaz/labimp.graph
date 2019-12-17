@@ -14,7 +14,6 @@ public class Vertex extends DrawObject {
 	Node node;
 	
 	static private double VERTEX_TEXT_SIZE;
-	static private boolean SHOW_EDGE_LABEL;
 	{
 		String edgeString = ViewObject.getProperty( Vertex.class, "VERTEX_TEXT_SIZE");
 		try {
